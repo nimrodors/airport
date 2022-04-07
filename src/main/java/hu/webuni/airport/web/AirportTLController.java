@@ -27,6 +27,7 @@ public class AirportTLController {
 	@GetMapping("/airports")
 	public String listAirports(Map<String, Object> model) {
 		model.put("airports", allAirports);
+		//itt csak az üreset adom hozzá
 		model.put("newAirport", new AirportDto());
 		return "airports";
 	}
