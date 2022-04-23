@@ -68,20 +68,25 @@ public class AirportController {
 //	//meglévő módosítása
 	@PutMapping("/{id}")
 	public ResponseEntity<AirportDto> modifyAirport(@PathVariable long id, @RequestBody AirportDto airportDto) {
-		if(airportService.getAirports().containsValue(id))
-			return ResponseEntity.notFound().build();
-//		if(!airports.containsKey(id))
-//			return ResponseEntity.notFound().build();
 		Airport airport = airportMapper.dtoToAirport(airportDto);
 		
-		airportService.checkUniqueIate(airport.getIata());
+		airportService.update(airport);
 		
-		//checkUniqueIate(airportDto.getIata());
-		//airportDto.setId(id);
-		airport.setId(id);
-		//airports.put(id, airportDto);
-		airportService.getAirports().put(id, airport);
-		return ResponseEntity.ok(airportDto);
+		AirportDto savedAirportDto = airportMapper.airportsToDto(airportService.update(airport));
+//		if(airportService.getAirports().containsValue(id))
+//			return ResponseEntity.notFound().build();
+////		if(!airports.containsKey(id))
+////			return ResponseEntity.notFound().build();
+//		Airport airport = airportMapper.dtoToAirport(airportDto);
+//		
+//		airportService.checkUniqueIate(airport.getIata());
+//		
+//		//checkUniqueIate(airportDto.getIata());
+//		//airportDto.setId(id);
+//		airport.setId(id);
+//		//airports.put(id, airportDto);
+//		airportService.getAirports().put(id, airport);
+		return ResponseEntity.ok(savedAirportDto);
 	}
 //
 
