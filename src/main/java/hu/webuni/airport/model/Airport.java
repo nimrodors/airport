@@ -27,7 +27,11 @@ public class Airport {
 		this.name = name;
 		this.iata = iata;
 	}
-	
+	public Airport(@Size(min = 3, max = 20) String name, String iata) {
+		super();
+		this.name = name;
+		this.iata = iata;
+	}
 	public long getId() {
 		return id;
 	}
