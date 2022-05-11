@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,6 +102,24 @@ public class AirportService {
 		flight.setLanding(airportRepository.findById(landingAirportId).get());
 		flight.setTakeOffTime(takeoffDateTime);
 		return flightRepository.save(flight);
+	}
+	
+	public List<Flight> findflightsByExample(Flight example) {
+		
+		long id = example.getId();
+		String flightNumber = example.getFlightNumber();
+		String takeoffIata = null;
+		Airport takeOff = example.getTakeOff();
+		if(takeOff != null) 
+			takeoffIata = takeOff.getIata();
+		LocalDateTime takeOffTime = example.getTakeOffTime();
+		
+		Specification<Flight> spec = Specification.where(null);
+		if(id > 0) {
+			spec = spec.and(FlightSpecification.hasId(id));
+		}
+		
+		return null;
 	}
 //
 //	public Map<Long, Airport> getAirports() {
