@@ -13,9 +13,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import hu.webuni.airport.model.Airport;
 import hu.webuni.airport.model.Flight;
@@ -119,7 +121,16 @@ public class AirportService {
 			spec = spec.and(FlightSpecification.hasId(id));
 		}
 		
-		return null;
+		if(StringUtils.hasText(flightNumber))
+			spec = spec.and(FlightSpecification.hasFlightnumber(flightNumber));
+		
+		if(StringUtils.hasText(takeoffIata))
+			spec = spec.and(FlightSpecification.hasTakeoffIata(takeoffIata));
+		
+		if(takeOffTime != null)
+			spec = spec.and(FlightSpecification.hasTakeofftime(takeOffTime));
+		
+		return flightRepository.findAll(spec, Sort.by("id"));
 	}
 //
 //	public Map<Long, Airport> getAirports() {
